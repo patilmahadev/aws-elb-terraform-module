@@ -1,7 +1,7 @@
 resource "aws_vpc" "myvpc" {
-  cidr_block = "10.10.0.0/16"
+  cidr_block = var.vpc_cidr_block
   tags = {
-    Name = "myvpc"
+    Name = "${var.prefix}-vpc"
     Org = "remoteX"
   }
 }
@@ -9,29 +9,29 @@ resource "aws_vpc" "myvpc" {
 resource "aws_internet_gateway" "myigw" {
   vpc_id = aws_vpc.myvpc.id
   tags = {
-    Name = "myigw"
+    Name = "${var.prefix}-igw"
     Org = "remoteX"
   }
 }
 
 resource "aws_subnet" "mypubsub" {
-  cidr_block = "10.10.1.0/24"
+  cidr_block = var.public_subnet_cidr_block
   vpc_id = aws_vpc.myvpc.id
   availability_zone = "${var.region}a"
   map_public_ip_on_launch = true
   tags = {
-    Name = "mypubsub"
+    Name = "${var.prefix}-pubsub"
     Org = "remoteX"
   }
 }
 
 resource "aws_subnet" "myprisub" {
-  cidr_block = "10.10.2.0/24"
+  cidr_block = var.private_subnet_cidr_block
   vpc_id = aws_vpc.myvpc.id
   availability_zone = "${var.region}b"
   map_public_ip_on_launch = false
   tags = {
-    Name = "myprisub"
+    Name = "${var.prefix}-prisub"
     Org = "remoteX"
   }
 }
@@ -43,7 +43,7 @@ resource "aws_route_table" "mypubrt" {
     gateway_id = aws_internet_gateway.myigw.id
   }
   tags = {
-    Name = "mypubrt"
+    Name = "${var.prefix}-pubrt"
     Org = "remoteX"
   }
 }
@@ -51,7 +51,7 @@ resource "aws_route_table" "mypubrt" {
 resource "aws_route_table" "myprirt" {
   vpc_id = aws_vpc.myvpc.id
   tags = {
-    Name = "myprirt"
+    Name = "${var.prefix}-prirt"
     Org = "remoteX"
   }
 }

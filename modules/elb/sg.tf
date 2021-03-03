@@ -1,6 +1,6 @@
 resource "aws_security_group" "myelbsg" {
-  name = "myelbsg"
-  vpc_id = aws_vpc.myvpc.id
+  name = "${var.prefix}-myelbsg"
+  vpc_id = var.vpc_id
   ingress {
     from_port = 80
     protocol = "tcp"
@@ -16,13 +16,13 @@ resource "aws_security_group" "myelbsg" {
 }
 
 resource "aws_security_group" "myec2sg" {
-  name = "myec2sg"
-  vpc_id = aws_vpc.myvpc.id
+  name = "${var.prefix}-myec2sg"
+  vpc_id = var.vpc_id
   ingress {
     from_port = 80
     protocol = "tcp"
     to_port = 80
-    cidr_blocks = ["10.10.0.0/16"]
+    cidr_blocks = [var.vpc_cidr_block]
   }
   egress {
     from_port = 0

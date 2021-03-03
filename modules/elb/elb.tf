@@ -1,6 +1,6 @@
 resource "aws_elb" "myelb" {
-  name = "myelb"
-  subnets = [aws_subnet.mypubsub.id, aws_subnet.myprisub.id]
+  name = "${var.prefix}-myelb"
+  subnets = [var.public_subnet_id, var.private_subnet_id]
   security_groups = [aws_security_group.myelbsg.id]
   instances = aws_instance.myinstance.*.id
   connection_draining = true

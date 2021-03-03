@@ -1,0 +1,11 @@
+variable "region" {}
+variable "profile" {}
+variable "prefix" {}
+variable "vpc_cidr_block" {}
+variable "instance_type" {}
+variable "public_key" {}
+variable "ami" {}
+variable "user_data" {}
+variable "vpc_id" {}
+variable "public_subnet_id" {}
+variable "private_subnet_id" {}
